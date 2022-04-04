@@ -5,13 +5,13 @@ const getCoordinates = async (location) => {
     `https://api.openweathermap.org/geo/1.0/direct?q=${location}&appid=045fce2ab9cadc090005d293ba386801`,
     { mode: 'cors' }
   );
-  const data = await response.json();
 
+  const data = await response.json();
+  console.log(data);
   const coord = {
     lat: data[0].lat,
     lon: data[0].lon,
   };
-
   return coord;
 };
 
@@ -25,11 +25,12 @@ const getWeatherData = async (coord) => {
   console.log(data);
   const date = new Date();
   console.log(`Updated as of: ${format(date, 'h:mmbbb')}`);
-  console.log(format(addDays(date, 1), 'ccc'));
+  console.log(format(addDays(date, 1), 'ccc LLL d'));
 };
 
-getCoordinates('portland')
+getCoordinates('llkkkjasf')
   .then(getWeatherData)
   .catch((err) => {
+    // Do not change currently displayed info
     console.log(`An error occured: ${err}`);
   });
