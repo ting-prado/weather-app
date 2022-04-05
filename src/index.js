@@ -6,7 +6,14 @@ const currentIcon = document.querySelector('.currentIcon');
 const currentLocation = document.querySelector('.location');
 const currentTemp = document.querySelector('.currentTemp');
 const currentDesc = document.querySelector('.currentDesc');
-const currentTime = document.querySelector('.currentTime');
+const currentTime = document.querySelector('.currentTime span');
+const feelsLike = document.querySelector('.feels_like');
+const windSpeed = document.querySelector('.wind_speed');
+const windIcon = document.querySelector('.windIcon');
+const visibility = document.querySelector('.visibility span');
+const pressure = document.querySelector('.pressure span');
+const humidity = document.querySelector('.humidity span');
+const dewPoint = document.querySelector('.dew_point span');
 
 const getCoord = async (location) => {
   const response = await fetch(
@@ -26,7 +33,7 @@ const getCoord = async (location) => {
 
 const getWeather = async (coord) => {
   const response = await fetch(
-    `https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&exclude=minutely,hourly,alerts&appid=045fce2ab9cadc090005d293ba386801`,
+    `https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&units=metric&exclude=minutely,hourly,alerts&appid=045fce2ab9cadc090005d293ba386801`,
     { mode: 'cors' }
   );
   const complete = await response.json();
@@ -40,11 +47,25 @@ const getWeather = async (coord) => {
 
 const displayData = (weather) => {
   currentLocation.textContent = weather.loc.toUpperCase();
-  currentTemp.textContent = `${weather.current.temp}°`;
+  currentTemp.textContent = `${Number(weather.current.temp).toFixed(1)}°`;
   currentDesc.textContent =
     weather.current.weather[0].description.toUpperCase();
-  currentTime.textContent = `Updated as of: ${format(new Date(), 'h:mmbbb')}`;
+  currentTime.textContent = `${format(new Date(), 'h:mm bbb')}`;
   currentIcon.src = `https://openweathermap.org/img/wn/${weather.current.weather[0].icon}@2x.png`;
+  windIcon.setAttribute(
+    'style',
+    `transform: rotate(${weather.current.wind_deg}deg)`
+  );
+  windSpeed.textContent = `${Number(weather.current.wind_speed).toFixed(
+    1
+  )} m/s`;
+  visibility.textContent = `${(
+    Number(weather.current.visibility) / 1000
+  ).toFixed(1)} km`;
+  feelsLike.textContent = `${Number(weather.current.feels_like).toFixed(0)}°`;
+  pressure.textContent = `${weather.current.pressure} hPa`;
+  humidity.textContent = `${weather.current.humidity}%`;
+  dewPoint.textContent = `${weather.current.dew_point}°`;
 };
 
 const getData = (location) => {
@@ -61,5 +82,8 @@ searchBtn.addEventListener('click', () => {
 });
 
 window.addEventListener('load', () => {
-  getData('Gingoog City');
+  getData('Manila');
+  document
+    .querySelector('.tempUnit > span:nth-child(2)')
+    .setAttribute('style', 'color: gainsboro');
 });

@@ -30,11 +30,17 @@
   padding: 0.5rem;
   width: 100%;
   align-items: center;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.sideInfo {
   gap: 0.5rem;
+}
+
+.windIcon {
+  display: inline-block;
 }
 
 .sidetop,
@@ -42,6 +48,7 @@
   width: 100%;
   display: flex;
   justify-content: space-evenly;
+  font-size: 14px;
 }
 
 .search img {
@@ -83,25 +90,52 @@ button:active {
 .mainInfo div:nth-of-type(2) {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
-  grid-template-rows: repeat(2, 1fr) 0.5fr;
+  grid-template-rows: 1fr repeat(2, 0.5fr);
   justify-items: center;
   align-items: center;
 }
 
+.location {
+  font-size: 20px;
+}
+
+.tempUnit {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tempUnit span {
+  cursor: pointer;
+}
+
 .currentIcon {
   grid-area: 1 / 1 / 3 / 2;
+  margin-top: -1rem;
 }
 
 .currentDesc {
   grid-area: 2 / 2 / 3 / 3;
+  font-size: 18px;
 }
 
 .currentTime {
   grid-area: 3 / 1 / -1 / -1;
+  font-size: 14px;
+}
+
+.currentTemp {
+  font-size: 48px;
+  font-weight: bolder;
+}
+
+.currentDesc {
+  align-self: start;
 }
 
 .dailyCont {
   width: 100%;
+  min-width: 400px;
   padding: 1rem;
   color: gainsboro;
   background: var(--cont-bg);
