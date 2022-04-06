@@ -14,6 +14,8 @@ const visibility = document.querySelector('.visibility span');
 const pressure = document.querySelector('.pressure span');
 const humidity = document.querySelector('.humidity span');
 const dewPoint = document.querySelector('.dew_point span');
+const fahr = document.querySelector('.tempUnit span:nth-child(1)');
+const cel = document.querySelector('.tempUnit span:nth-child(2)');
 
 const getCoord = async (location) => {
   const response = await fetch(
@@ -46,6 +48,8 @@ const getWeather = async (coord) => {
 };
 
 const displayData = (weather) => {
+  cel.setAttribute('style', 'color: gainsboro');
+  fahr.setAttribute('style', 'color: black');
   currentLocation.textContent = weather.loc.toUpperCase();
   currentTemp.textContent = `${Number(weather.current.temp).toFixed(1)}°`;
   currentDesc.textContent =
@@ -68,6 +72,27 @@ const displayData = (weather) => {
   dewPoint.textContent = `${weather.current.dew_point}°`;
 };
 
+const cToFahr = (temp) => {
+  const f = (temp * 9) / 5 + 32;
+  return f;
+};
+
+const fahrToC = (temp) => {
+  const c = (temp - 32) * (5 / 9);
+  return c;
+};
+
+const changeUnits = (currentUnit) => {
+  const a = currentTemp.textContent;
+  let temp = a.slice(0, a.length - 1);
+  if (currentUnit === 'celcius') {
+    temp = cToFahr(temp);
+  } else {
+    temp = fahrToC(temp);
+  }
+  currentTemp.textContent = `${temp.toFixed(1)}°`;
+};
+
 const getData = (location) => {
   getCoord(location)
     .then(getWeather)
@@ -79,6 +104,22 @@ const getData = (location) => {
 
 searchBtn.addEventListener('click', () => {
   getData(searchBar.value);
+});
+
+fahr.addEventListener('click', () => {
+  if (fahr.style.color !== 'gainsboro') {
+    changeUnits('celcius');
+    fahr.setAttribute('style', 'color: gainsboro');
+    cel.setAttribute('style', 'color: black');
+  }
+});
+
+cel.addEventListener('click', () => {
+  if (cel.style.color !== 'gainsboro') {
+    changeUnits('fahrenheit');
+    fahr.setAttribute('style', 'color: black');
+    cel.setAttribute('style', 'color: gainsboro');
+  }
 });
 
 window.addEventListener('load', () => {
