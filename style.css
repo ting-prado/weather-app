@@ -16,12 +16,20 @@
   justify-content: space-evenly;
   --cont-bg: rgba(0, 0, 0, 0.4);
   --main-font: 'Fira Sans', sans-serif;
+  --border-radius: 8px;
   font-family: var(--main-font);
   gap: 1rem;
 }
 
 .current {
   width: min(450px, 100%);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.location {
+  border-top-right-radius: var(--border-radius);
+  border-top-left-radius: var(--border-radius);
 }
 
 .mainInfo > :not(.search),
@@ -139,6 +147,7 @@ button:active {
   padding: 1rem;
   color: gainsboro;
   background: var(--cont-bg);
+  border-radius: var(--border-radius);
 }
 
 .daily {
@@ -152,7 +161,6 @@ button:active {
   margin-bottom: 1rem;
   font-size: 24px;
   font-weight: bolder;
-  color: yellow;
   text-align: center;
 }
 
