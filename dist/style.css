@@ -22,7 +22,7 @@
 }
 
 .current {
-  width: min(450px, 100%);
+  width: min(500px, 100%);
   border-radius: var(--border-radius);
   overflow: hidden;
 }
@@ -57,6 +57,7 @@
   display: flex;
   justify-content: space-evenly;
   font-size: 14px;
+  text-align: center;
 }
 
 .search img {
@@ -68,8 +69,21 @@
   width: 100%;
   display: flex;
   gap: 0.5rem;
+  padding-bottom: 0.5rem;
   align-items: center;
-  margin: 1rem 0;
+  margin-bottom: 1rem;
+  margin-top: 0.1rem;
+  position: relative;
+}
+
+.error {
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 12px;
+  color: maroon;
 }
 
 input {
@@ -77,6 +91,7 @@ input {
   border-radius: 5px;
   border: 1px solid black;
   padding: 4px;
+  background: white;
 }
 
 button {
@@ -143,9 +158,9 @@ button:active {
 
 .dailyCont {
   width: 100%;
-  min-width: 400px;
   padding: 1rem;
   color: gainsboro;
+  text-align: center;
   background: var(--cont-bg);
   border-radius: var(--border-radius);
 }
@@ -153,18 +168,83 @@ button:active {
 .daily {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 2rem;
   justify-content: center;
+}
+
+.card { 
+  width: clamp(200px, 24%, 100%);
+}
+
+.card img {
+  transform: scale(0.8);
+  margin: -1.5rem 0;
 }
 
 .dailyCont h2 {
   margin-bottom: 1rem;
   font-size: 24px;
   font-weight: bolder;
-  text-align: center;
 }
 
-.card {
-  width: clamp(250px, 24%, 100%);
-  text-align: center;
+.card div:nth-child(1) {
+  font-size: 18px;
+}
+
+.dailyTemp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2px;
+}
+
+.dailyTemp > span:nth-child(1) {
+  font-size: 24px;
+  color: white;
+}
+
+.dailyTemp > span:nth-child(2) {
+  font-size: 16px;
+  color: silver;
+}
+
+@media screen and (min-width: 992px) {
+  .dailyCont {
+    background: none;
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    background: var(--cont-bg);
+  }
+
+  .dailyCont h2,
+  .card {
+    padding: 0.5rem 0;
+  }
+
+  .dailyCont h2 {
+    position: absolute;
+    top: 1rem;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    font-size: 72px;
+    width: max(500px, 40%);
+  }
+
+  .daily {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-rows: repeat(2, 1fr);
+    justify-items: center;
+  }
+
+  .daily > div:not(:first-child):not(:last-child) {
+    grid-row: 2 / -1;
+  }
+
+  .daily > div:last-child {
+    grid-column: 5 / 6 ;
+  }
 }
