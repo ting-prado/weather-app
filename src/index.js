@@ -1,7 +1,9 @@
+/* eslint-disable no-plusplus */
 import { format, addDays } from 'date-fns';
 
 const searchBar = document.querySelector('#searchbar');
 const searchBtn = document.querySelector('button');
+const errorMsg = document.querySelector('.error');
 const currentIcon = document.querySelector('.currentIcon');
 const currentLocation = document.querySelector('.location');
 const currentTemp = document.querySelector('.currentTemp');
@@ -16,6 +18,7 @@ const humidity = document.querySelector('.humidity span');
 const dewPoint = document.querySelector('.dew_point span');
 const fahr = document.querySelector('.tempUnit span:nth-child(1)');
 const cel = document.querySelector('.tempUnit span:nth-child(2)');
+const cards = document.querySelectorAll('.card');
 
 const getCoord = async (location) => {
   const response = await fetch(
@@ -29,7 +32,6 @@ const getCoord = async (location) => {
     lon: data[0].lon,
     loc: `${data[0].name}, ${data[0].country}`,
   };
-
   return coord;
 };
 
@@ -47,30 +49,62 @@ const getWeather = async (coord) => {
   return data;
 };
 
-const displayData = (weather) => {
-  cel.setAttribute('style', 'color: gainsboro');
-  fahr.setAttribute('style', 'color: black');
-  currentLocation.textContent = weather.loc.toUpperCase();
-  currentTemp.textContent = `${Number(weather.current.temp).toFixed(1)}°`;
-  currentDesc.textContent =
-    weather.current.weather[0].description.toUpperCase();
-  currentTime.textContent = `${format(new Date(), 'h:mm bbb')}`;
-  currentIcon.src = `https://openweathermap.org/img/wn/${weather.current.weather[0].icon}@2x.png`;
-  windIcon.setAttribute(
-    'style',
-    `transform: rotate(${weather.current.wind_deg}deg)`
-  );
-  windSpeed.textContent = `${Number(weather.current.wind_speed).toFixed(
-    1
-  )} m/s`;
-  visibility.textContent = `${(
-    Number(weather.current.visibility) / 1000
-  ).toFixed(1)} km`;
-  feelsLike.textContent = `${Number(weather.current.feels_like).toFixed(0)}°`;
-  pressure.textContent = `${weather.current.pressure} hPa`;
-  humidity.textContent = `${weather.current.humidity}%`;
-  dewPoint.textContent = `${weather.current.dew_point}°`;
-};
+const displayData = (() => {
+  const date = new Date();
+
+  const current = (weather) => {
+    errorMsg.textContent = '';
+    cel.setAttribute('style', 'color: gainsboro');
+    fahr.setAttribute('style', 'color: black');
+    currentLocation.textContent = weather.loc.toUpperCase();
+    currentTemp.textContent = `${Number(weather.current.temp).toFixed(1)}°`;
+    currentDesc.textContent =
+      weather.current.weather[0].description.toUpperCase();
+    currentTime.textContent = `${format(date, 'h:mm bbb')}`;
+    currentIcon.src = `https://openweathermap.org/img/wn/${weather.current.weather[0].icon}@2x.png`;
+    windIcon.setAttribute(
+      'style',
+      `transform: rotate(${weather.current.wind_deg}deg); 
+       -webkit-transform: rotate(${weather.current.wind_deg}deg);
+       -moz-transform: rotate(${weather.current.wind_deg}deg);
+       -ms-transform: rotate(${weather.current.wind_deg}deg)`
+    );
+    windSpeed.textContent = `${Number(weather.current.wind_speed).toFixed(
+      1
+    )} m/s`;
+    visibility.textContent = `${(
+      Number(weather.current.visibility) / 1000
+    ).toFixed(1)} km`;
+    feelsLike.textContent = `${Number(weather.current.feels_like).toFixed(
+      0
+    )}°C`;
+    pressure.textContent = `${weather.current.pressure} hPa`;
+    humidity.textContent = `${weather.current.humidity}%`;
+    dewPoint.textContent = `${weather.current.dew_point}°C`;
+  };
+
+  const daily = (weather) => {
+    for (let i = 0; i < weather.daily.length; i++) {
+      cards[i].children[0].textContent = format(
+        addDays(date, i + 1),
+        'ccc LLL d'
+      );
+      cards[i].children[1].src = `https://openweathermap.org/img/wn/${
+        weather.daily[i + 1].weather[0].icon
+      }@2x.png`;
+      cards[i].children[2].children[0].textContent = `${
+        weather.daily[i + 1].temp.max
+      }°C`;
+      cards[i].children[2].children[1].textContent = `${
+        weather.daily[i + 1].temp.min
+      }°C`;
+      cards[i].children[3].textContent =
+        weather.daily[i + 1].weather[0].description.toUpperCase();
+    }
+  };
+
+  return { current, daily };
+})();
 
 const cToFahr = (temp) => {
   const f = (temp * 9) / 5 + 32;
@@ -96,14 +130,31 @@ const changeUnits = (currentUnit) => {
 const getData = (location) => {
   getCoord(location)
     .then(getWeather)
-    .then(displayData)
+    .then((data) => {
+      displayData.current(data);
+      displayData.daily(data);
+    })
     .catch((error) => {
-      console.log(error);
+      if (
+        error.message === "Cannot read properties of undefined (reading 'lat')"
+      ) {
+        errorMsg.textContent = 'Location not found, enter another one.';
+      } else if (error.message === 'Failed to fetch') {
+        errorMsg.textContent = 'Network error, try again later.';
+      } else {
+        console.log(error);
+      }
     });
 };
 
 searchBtn.addEventListener('click', () => {
   getData(searchBar.value);
+});
+
+searchBar.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    getData(searchBar.value);
+  }
 });
 
 fahr.addEventListener('click', () => {
