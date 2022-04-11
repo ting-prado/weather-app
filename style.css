@@ -6,7 +6,7 @@
 
 .container {
   min-height: 100vh;
-  background: url('./resources/bg.png') no-repeat;
+  background: url('./resources/bg.jpeg') no-repeat;
   background-size: cover;
   background-position: center;
   padding: 1rem;
@@ -39,25 +39,24 @@
   width: 100%;
   align-items: center;
   display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
-.sideInfo {
-  gap: 0.5rem;
+.mainInfo > :not(.search) {
+  flex-direction: column;
 }
 
 .windIcon {
   display: inline-block;
 }
 
-.sidetop,
-.sidebot {
+.sideInfo {
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
   font-size: 14px;
   text-align: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
 }
 
 .search img {
@@ -134,11 +133,12 @@ button:active {
 
 .currentIcon {
   grid-area: 1 / 1 / 3 / 2;
-  margin-top: -1rem;
+  margin-top: -2rem;
+  justify-self: end;
 }
 
 .currentDesc {
-  grid-area: 2 / 2 / 3 / 3;
+  grid-area: 2 / 1 / 3 / -1;
   font-size: 18px;
 }
 
@@ -158,7 +158,7 @@ button:active {
 
 .dailyCont {
   width: 100%;
-  padding: 1rem;
+  padding: 0.5rem;
   color: gainsboro;
   text-align: center;
   background: var(--cont-bg);
