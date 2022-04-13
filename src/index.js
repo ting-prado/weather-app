@@ -54,8 +54,8 @@ const displayData = (() => {
 
   const current = (weather) => {
     errorMsg.textContent = '';
-    cel.setAttribute('style', 'color: gainsboro');
-    fahr.setAttribute('style', 'color: black');
+    cel.setAttribute('style', 'color: goldenrod');
+    fahr.setAttribute('style', 'color: gainsboro');
     currentLocation.textContent = weather.loc.toUpperCase();
     currentTemp.textContent = `${Number(weather.current.temp).toFixed(1)}°`;
     currentDesc.textContent =
@@ -158,18 +158,18 @@ searchBar.addEventListener('keydown', (e) => {
 });
 
 fahr.addEventListener('click', () => {
-  if (fahr.style.color !== 'gainsboro') {
+  if (fahr.style.color !== 'goldenrod') {
     changeUnits('celcius');
-    fahr.setAttribute('style', 'color: gainsboro');
-    cel.setAttribute('style', 'color: black');
+    fahr.setAttribute('style', 'color: goldenrod');
+    cel.setAttribute('style', 'color: gainsboro');
   }
 });
 
 cel.addEventListener('click', () => {
-  if (cel.style.color !== 'gainsboro') {
+  if (cel.style.color !== 'goldenrod') {
     changeUnits('fahrenheit');
-    fahr.setAttribute('style', 'color: black');
-    cel.setAttribute('style', 'color: gainsboro');
+    fahr.setAttribute('style', 'color: gainsboro');
+    cel.setAttribute('style', 'color: goldenrod');
   }
 });
 
