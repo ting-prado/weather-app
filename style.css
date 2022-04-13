@@ -23,6 +23,7 @@
 
 .current {
   width: min(500px, 100%);
+  color: gainsboro;
   border-radius: var(--border-radius);
   overflow: hidden;
 }
@@ -62,6 +63,7 @@
 .search img {
   width: 20px;
   height: 20px;
+  filter: invert(100%);
 }
 
 .search {
@@ -88,14 +90,14 @@
 input {
   flex: 1;
   border-radius: 5px;
-  border: 1px solid black;
+  border: 1px solid rgb(150, 111, 19);
   padding: 4px;
   background: white;
 }
 
 button {
   border-radius: 5px;
-  border: 1px solid black;
+  border: 1px solid rgb(150, 111, 19);
   height: 25px;
   width: 100px;
 }
