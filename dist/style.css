@@ -90,14 +90,14 @@
 input {
   flex: 1;
   border-radius: 5px;
-  border: 1px solid rgb(150, 111, 19);
+  border: 1px solid rgb(101, 10, 119);
   padding: 4px;
   background: white;
 }
 
 button {
   border-radius: 5px;
-  border: 1px solid rgb(150, 111, 19);
+  border: 1px solid rgb(101, 10, 119);
   height: 25px;
   width: 100px;
 }
